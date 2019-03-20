@@ -1,0 +1,15 @@
+#header {
+    font-size: 72px;
+    text-align: center;
+}
+
+.container {
+    width: 80%;
+}
+body {
+    text-align: center;
+}
+
+.giphy-btn {
+    border: black solid 1px;
+}
