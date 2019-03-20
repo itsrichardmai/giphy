@@ -53,18 +53,6 @@
 
 
 // WHY IS THIS CODE NOT WORKING?
-$("#add-Giphy").on("click", function(event) {
-    event.preventDefault();
-    var userInput = $("#giphy-input").val();
-    var giphyBtn = $("<button>")
-    giphyBtn.addClass("giphy-btn btn btn-light")
-    giphyBtn.attr("data-name", userInput);
-    console.log(giphy1);
-
-    giphyArray.push(userInput);
-    
-    renderButtons();
-})
 
 
 // // on click event that will be added to all objects with a class of .giphy-btn
@@ -76,12 +64,7 @@ $("#add-Giphy").on("click", function(event) {
 var queryURL = ""
 var giphyArray = ["Spongebob", "The Matrix", "Neo", "Patrick", "String"]
 
-$(".giphy-btn").on("click", function()  {
 
-var giphy = $(this).attr("data-name");
-
-displayGiphyInfo(giphy, queryURL);
-})
 
 
 // this function empties the buttons display div then appends the buttons until we have completely looped through the array 
@@ -102,11 +85,24 @@ function renderButtons() {
 // when the document is ready, we will display the buttons in our array
 $(document).ready(function(){
     renderButtons();
+
+    $("#addGiphy").on("click", function(event) {
+        event.preventDefault();
+        var userInput = $("#giphyForm").val();
+        var giphyBtn = $("<button>");
+        console.log(userInput)
+        giphyBtn.addClass("giphy-btn btn btn-light");
+        giphyBtn.attr("data-name", userInput);
+        giphyBtn.text(userInput)
+        giphyArray.push(userInput);
+        console.log(giphyArray);
+        $("#buttons-view").append(giphyBtn)
+        
+    })
 })
 
 // this function will set the queryURL and giphy string value to search.
-function displayGiphyInfo() {
-    
+function displayGiphyInfo(giphy) {
     queryURL = "https://api.giphy.com/v1/gifs/search?q=" +
     giphy + "&api_key=dc6zaTOxFJmzC&limit=10";
 
@@ -115,6 +111,15 @@ function displayGiphyInfo() {
         method: "GET"
     }).then(function(response){
         console.log(response);
+        
     })
 }
 
+    $(".btn").on("click", function()  {
+
+        var giphy = $(this).attr("data-name");
+        // console.log(giphy + "HEHE XD");
+        displayGiphyInfo(giphy);
+        })
+
+$(document).on("click", ".btn", displayGiphyInfo)
