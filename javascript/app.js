@@ -36,17 +36,17 @@
 //         $("#buttons-view").append(a);
 //      }
 // }
-$(".gif").on("click", function(){
-    var state = $(this).attr("data-state");
+// $(".gif").on("click", function(){
+//     var state = $(this).attr("data-state");
 
-    if (state === 'still') {
-        $(this).attr("src", $(this).attr("data-animate"));
-        $(this).attr("data-state", "animate");
-    } else {
-        $(this).attr("src", $(this).attr("data-still"));
-        $(this).attr("data-state", "still");
-    }
-})
+//     if (state === 'still') {
+//         $(this).attr("src", $(this).attr("data-animate"));
+//         $(this).attr("data-state", "animate");
+//     } else {
+//         $(this).attr("src", $(this).attr("data-still"));
+//         $(this).attr("data-state", "still");
+//     }
+// })
 
 
 
@@ -54,16 +54,15 @@ $(".gif").on("click", function(){
 
 // WHY IS THIS CODE NOT WORKING?
 $("#add-Giphy").on("click", function(event) {
-    
     event.preventDefault();
-
-    console.log($("#giphy-input").val());
-    var giphy1 = $("#giphy-input").val();
-
+    var userInput = $("#giphy-input").val();
+    var giphyBtn = $("<button>")
+    giphyBtn.addClass("giphy-btn btn btn-light")
+    giphyBtn.attr("data-name", userInput);
     console.log(giphy1);
 
-    giphyArray.push(giphy1);
-
+    giphyArray.push(userInput);
+    
     renderButtons();
 })
 
@@ -118,3 +117,4 @@ function displayGiphyInfo() {
         console.log(response);
     })
 }
+
