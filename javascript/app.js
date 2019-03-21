@@ -110,8 +110,21 @@ function displayGiphyInfo(giphy) {
         url: queryURL,
         method: "GET"
     }).then(function(response){
-        console.log(response);
-        
+        // console.log(response)
+        var results = response.data.length
+        for (var i = 0; i < results.length; i++) {
+            var newDiv = $("<div>");
+            var ratingDiv = $("<p>" + response.data[i].rating + "</p>");
+            var imgDiv = $("<img src=" + JSON.stringify(response.data[i].images["480w_still"].url) + "data-still=" + JSON.stringify(response.data[i].images["480w_still"].url) + "data-animate=" + JSON.stringify(response.data[i].images["original"].url) + "data-state=" + "still" + "class=" + "gif" + "</img>");
+            var titleDiv = $("<h2>" + response.data[i].title + "</h2>")
+            
+            $(newDiv).prepend(titleDiv);
+            $(newDiv).prepend(imgDiv);
+            $(imgDiv).append(ratingDiv);
+            $("#displayDiv").prepend(newDiv);
+        }
+        console.log(response)
+        console.log(response.data[0].type)
     })
 }
 
