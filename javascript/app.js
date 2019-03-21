@@ -102,7 +102,8 @@ $(document).ready(function(){
 })
 
 // this function will set the queryURL and giphy string value to search.
-function displayGiphyInfo(giphy) {
+function displayGiphyInfo() {
+    var giphy = $(this).attr("data-name");
     queryURL = "https://api.giphy.com/v1/gifs/search?q=" +
     giphy + "&api_key=dc6zaTOxFJmzC&limit=10";
 
@@ -110,17 +111,21 @@ function displayGiphyInfo(giphy) {
         url: queryURL,
         method: "GET"
     }).then(function(response){
-        // console.log(response)
+        console.log(response)
         var results = response.data.length
-        for (var i = 0; i < results.length; i++) {
+        for (var i = 0; i < results; i++) {
             var newDiv = $("<div>");
             var ratingDiv = $("<p>" + response.data[i].rating + "</p>");
-            var imgDiv = $("<img src=" + JSON.stringify(response.data[i].images["480w_still"].url) + "data-still=" + JSON.stringify(response.data[i].images["480w_still"].url) + "data-animate=" + JSON.stringify(response.data[i].images["original"].url) + "data-state=" + "still" + "class=" + "gif" + "</img>");
+            // var imgDiv = $("<img src=" + JSON.stringify(response.data[i].images["480w_still"].url) + "data-still=" + JSON.stringify(response.data[i].images["480w_still"].url) + "data-animate=" + JSON.stringify(response.data[i].images["original"].url) + "data-state=" + "still" + "class=" + "gif" + "</img>");
+            // var imgDiv = $("<img src=" + JSON.stringify(response.data[i].images.fixed_height.url) + "</img>");
+            var imgDiv = $("<img src=" + JSON.stringify(response.data[i].images.original_still.url) + "data-still=" + JSON.stringify(response.data[i].images.original_still.url) + "data-animate=" + JSON.stringify(response.data[i].images.original.url) + "data-state=" + "still" + "</img>");
+            imgDiv.addClass("gif");
+            // imgDiv.attr("src", response.data[i].images.fixed_height.url)
             var titleDiv = $("<h2>" + response.data[i].title + "</h2>")
             
             $(newDiv).prepend(titleDiv);
             $(newDiv).prepend(imgDiv);
-            $(imgDiv).append(ratingDiv);
+            $(newDiv).append(ratingDiv);
             $("#displayDiv").prepend(newDiv);
         }
         console.log(response)
@@ -128,11 +133,24 @@ function displayGiphyInfo(giphy) {
     })
 }
 
-    $(".btn").on("click", function()  {
+    // $(".btn").on("click", function()  {
 
-        var giphy = $(this).attr("data-name");
-        // console.log(giphy + "HEHE XD");
-        displayGiphyInfo(giphy);
-        })
+    //     var giphy = $(this).attr("data-name");
+    //     // console.log(giphy + "HEHE XD");
+    //     displayGiphyInfo(giphy);
+    //     })
 
 $(document).on("click", ".btn", displayGiphyInfo)
+$(document).on("click", ".gif", handleGif)
+
+function handleGif() {
+ var state = $(this).attr("data-state");
+ console.log(state)
+ if (state === "data-still") {
+     $(this).attr("src", $(this).attr("data-animate"));
+     $(this).attr("data-state", "data-animate");
+ } else {
+    $(this).attr("src", $(this).attr("data-still"));
+    $(this).attr("data-state", "data-still");
+ }
+}
